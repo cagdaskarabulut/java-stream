@@ -3,10 +3,7 @@ package com.karabulut.javastream;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -120,6 +117,18 @@ public class JavaStreamApplication {
             System.out.println("Cinsiyet:" + gender);
             personList.forEach(System.out::println);
         });
+        System.out.println();
+
+        //Reduce
+        int reduced =
+                IntStream.range(1, 4).reduce((a, b) -> a + b).orElse(0); //(1 + 2 + 3) = 6
+        int reducedTwoParams =
+                IntStream.range(1, 4).reduce(10, (a, b) -> a + b); //  (10 + 1 + 2 + 3) = 16
+        int reducedParallel = Arrays.asList(1, 2, 3).parallelStream()
+                .reduce(10, (a, b) -> a + b, (a, b) -> {
+                    return a + b;
+                }); // 11+12+13 = 36
+        System.out.println("Reduce Example - reduced:"+reduced + ", reducedTwoParams:"+reducedTwoParams + ", reducedParallel:"+reducedParallel);
         System.out.println();
 
         //Map
