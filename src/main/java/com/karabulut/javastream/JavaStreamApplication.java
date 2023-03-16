@@ -14,11 +14,14 @@ public class JavaStreamApplication {
     public static void main(String[] args) {
         SpringApplication.run(JavaStreamApplication.class, args);
 
-        exercise();
+        exerciseStream();
+        exerciseMap();
     }
 
-    public static void exercise(){
+    public static void exerciseStream(){
+        System.out.println("Java Stream Examples");
         List<Person> people = getPeople();
+        List<Integer> intList = List.of(61,62,63,64,65);
         System.out.println();
 
         //Filter
@@ -67,6 +70,12 @@ public class JavaStreamApplication {
                 .forEach(System.out::println);
         System.out.println();
 
+        System.out.println("Sort Reverse Order Example");
+        intList.stream()
+            .sorted(Comparator.reverseOrder())
+            .forEach(System.out::println);
+
+
         // All match
         boolean allMatch = people.stream()
                 .allMatch(x -> x.getName().contains("Al"));
@@ -102,7 +111,7 @@ public class JavaStreamApplication {
 
         // Skip
         System.out.println("Skip Example");
-        IntStream.of(61,62,63,64,65)
+        IntStream.of(intList.stream().mapToInt(Integer::intValue).toArray())
                 .skip(2)
                         .filter(i-> i>5)
                                 .forEach(i-> System.out.println(i));
@@ -131,6 +140,14 @@ public class JavaStreamApplication {
         System.out.println("Reduce Example - reduced:"+reduced + ", reducedTwoParams:"+reducedTwoParams + ", reducedParallel:"+reducedParallel);
         System.out.println();
 
+        //Iterate Until
+        IntStream
+                .iterate(1, n -> n + 1)
+                .takeWhile(n -> n < 10)
+                .forEach(System.out::println);
+        System.out.println("Iterate Until Example");
+        System.out.println();
+
         //Map
         Integer sum = person.stream().filter(x->{
             return x.getAge()>30;
@@ -140,6 +157,13 @@ public class JavaStreamApplication {
                     return a+b;
                 });
         System.out.println("Map Example - "+sum);
+        System.out.println();
+
+        //Takewhile - stop for loop condition
+        System.out.println("Takewhile Example");
+        Stream.of("cat", "dog", "elephant", "fox", "rabbit", "duck")
+                .takeWhile(n -> n.length() % 2 != 0)
+                .forEach(System.out::println);
         System.out.println();
 
     }
@@ -157,4 +181,28 @@ public class JavaStreamApplication {
         ));
         return userList;
     }
+
+    public static void exerciseMap(){
+        System.out.println("Java Map Examples");
+        Map<String ,Integer> map=new HashMap<>();
+        map.put("A",1);
+        map.put("B",2);
+        map.put("C",3);
+        map.put("D",4);
+        map.put("E",5);
+
+        //before 1.8
+        Collection<Integer> values = map.values();
+        int total=0;
+        for (String s: map.keySet()) {
+            total+=map.get(s);
+        }
+        System.out.println("before 1.8 sum = " + total);
+
+        //after 1.8
+        List<Integer> list = new ArrayList(map.values());
+        Integer total2 = list.stream().reduce(0, Integer::sum);
+        System.out.println("after 1.8 sum = " + total);
+    }
+
 }
