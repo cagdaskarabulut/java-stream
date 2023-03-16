@@ -21,7 +21,7 @@ public class JavaStreamApplication {
     public static void exerciseStream(){
         System.out.println("Java Stream Examples");
         List<Person> people = getPeople();
-        List<Integer> intList = List.of(61,62,63,64,65);
+        List<Integer> intList = List.of(61,62,63,64,65,65);
         System.out.println();
 
         //Filter
@@ -166,6 +166,12 @@ public class JavaStreamApplication {
                 .forEach(System.out::println);
         System.out.println();
 
+        //Find Dublicates
+        Set<Integer> items = new HashSet<>();
+        List result = intList.stream()
+                .filter(n -> !items.add(n)) // Set.add() returns false if the element was already in the set.
+                .collect(Collectors.toList());
+        System.out.println("Find Dublicates-"+result);
     }
 
     private static ArrayList<Person> getPeople() {
