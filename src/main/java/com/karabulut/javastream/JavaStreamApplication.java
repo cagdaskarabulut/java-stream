@@ -172,6 +172,13 @@ public class JavaStreamApplication {
                 .filter(n -> !items.add(n)) // Set.add() returns false if the element was already in the set.
                 .collect(Collectors.toList());
         System.out.println("Find Dublicates-"+result);
+
+        //basic For loop
+        IntStream.range(0, 3).forEach(i -> yazdir(i));
+    }
+
+    private static void yazdir(int text) {
+        System.out.println("Dongu numarasi "+ text );
     }
 
     private static ArrayList<Person> getPeople() {
